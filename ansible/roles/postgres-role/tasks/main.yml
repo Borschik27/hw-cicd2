@@ -1,0 +1,93 @@
+---
+# tasks file for installing and configuring PostgreSQL
+
+- name: Update APT cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install PostgreSQL
+  become: true
+  apt:
+    name:
+      - python3-psycopg2
+      - postgresql
+      - postgresql-client
+    state: present
+
+- name: Ensure PostgreSQL is started and enabled
+  become: true
+  service:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Get PostgreSQL version
+  become: true
+  command: "psql --version"
+  register: pg_version_output
+
+- name: Extract major version
+  set_fact:
+    postgresql_version: "{{ pg_version_output.stdout | regex_search('[0-9]+') }}"
+
+- name: Copy postgresql.conf
+  become: true
+  copy:
+    src: postgresql.conf
+    dest: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: 0640
+
+- name: Copy pg_hba.conf
+  become: true
+  copy:
+    src: pg_hba.conf
+    dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0640
+  notify: Restart PostgreSQL
+
+- name: Ensure PostgreSQL superuser password is set
+  become: true
+  shell: |
+    sudo -u postgres psql -c "ALTER USER postgres PASSWORD '{{ sonarqube_db_password }}';"
+  args:
+    executable: /bin/bash
+    
+- name: Ensure SonarQube database user exists
+  become: true
+  postgresql_user:
+    name: "{{ sonarqube_db_user }}"
+    password: "{{ sonarqube_db_password }}"
+    role_attr_flags: "LOGIN"
+    state: present
+    login_user: postgres
+
+- name: Ensure SonarQube database exists
+  become: true
+  postgresql_db:
+    name: "{{ sonarqube_db_name }}"
+    owner: "{{ sonarqube_db_user }}"
+    encoding: "UTF8"
+    lc_collate: "en_US.UTF-8"
+    lc_ctype: "en_US.UTF-8"
+    state: present
+    login_user: postgres
+
+- name: Grant privileges on database to user
+  become: true
+  postgresql_privs:
+    db: "{{ sonarqube_db_name }}"
+    roles: "{{ sonarqube_db_user }}"
+    type: "database"
+    privs: "ALL"
+
+# Handler to restart PostgreSQL
+- name: Restart PostgreSQL
+  become: true
+  service:
+    name: postgresql
+    state: restarted

@@ -1,0 +1,7 @@
+---
+# handlers file for postgres-role
+# handlers/main.yml
+- name: Restart PostgreSQL
+  service:
+    name: postgresql
+    state: restarted

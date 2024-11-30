@@ -1,0 +1,11 @@
+#cloud-config
+users:
+  - name: ${uname}
+    shell: ${shell}
+    sudo: ["${s_com}"]
+    ssh_authorized_keys:
+      - ${ssh_key}
+package_update: true
+package_upgrade: true
+packages:
+  - ${pack}
