@@ -220,3 +220,5 @@ sypchik@Mirror:~$ sonar-scanner -v
 ```
 
 
+![alt text](<Screenshot 2024-12-04 011426.png>)
+![alt text](<Screenshot 2024-12-04 012822.png>)
