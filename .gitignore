@@ -42,3 +42,6 @@ personal.auto.tfvars
 example
 mvn
 hosts.yaml
+ansible_log
+*.png
+.trunk

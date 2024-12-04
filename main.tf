@@ -93,7 +93,7 @@ resource "local_file" "ansible_inventory" {
 resource "null_resource" "ansible_apply" {
   provisioner "local-exec" {
     command = <<EOT
-      ansible-playbook -i ${path.module}/ansible/inventory/hosts.yaml ${path.module}/ansible/playbooks/svc.yml
+      ANSIBLE_CONFIG=ansible/ansible.cfg  ansible-playbook -i ${path.module}/ansible/inventory/hosts.yaml ${path.module}/ansible/playbooks/playbook_roles.yaml
     EOT
 
     environment = {
@@ -103,4 +103,3 @@ resource "null_resource" "ansible_apply" {
 
   depends_on = [ local_file.ansible_inventory, null_resource.wait_for_cloud_init ]
 }
-*/

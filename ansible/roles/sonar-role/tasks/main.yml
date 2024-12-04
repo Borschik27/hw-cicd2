@@ -110,9 +110,14 @@
     - regexp: "^sonar.jdbc.password"
       line: "sonar.jdbc.password={{ sonarqube_db_password }}"
     - regexp: "^sonar.jdbc.url"
-      line: "sonar.jdbc.url=jdbc:postgresql://{{ db_pivate_ip }}:{{ sonar_db_port }}/{{ sonarqube_db_name }}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+      line: "sonar.jdbc.url=jdbc:postgresql://{{ db_private_ip }}:{{ sonar_db_port }}/{{ sonarqube_db_name }}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
     - regexp: "^sonar.web.context"
       line: "sonar.web.context={{ sonar_web_context }}"
+    - regexp: "^sonar.web.port"
+      line: "sonar.web.port={{ sonar_web_port }}"
+    - regexp: "^sonar.web.host"
+      line: "sonar.web.host={{ sonar_web_host }}"
+      
     
 - name: Generate wrapper.conf
   template:

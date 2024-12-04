@@ -5,13 +5,13 @@
   tasks:
 ### Этот блок выводит внутренний ip-адрес субд полученный в outputs от terraform
     - name: Get DB private IP-addr
-      command: "terraform output -raw db_private_ip"
+      command: "terraform output -state=../../terraform.tfstate -raw db_private_ip"
       register: db_private_ip
 
     - name: Add vars in main.yml
       lineinfile:
         path: "{{ playbook_dir }}/../roles/sonar-role/vars/main.yml"
-        line: "db_private_ip: \"{{ db_private_ip.stdout }}\""
+        line: "db_private_ip: {{ db_private_ip.stdout }}"
         state: present
         insertafter: EOF
 ######

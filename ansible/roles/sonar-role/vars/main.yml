@@ -12,4 +12,6 @@ java_home: "/opt/jdk/{{ jdk_folder }}"
 sonarqube_db_name: sonar
 sonarqube_db_user: sonar
 sonarqube_db_password: sonar
-
+sonar_web_host: "0.0.0.0"
+sonar_web_port: "9000"
+db_private_ip: 10.1.1.17
