@@ -1,10 +1,11 @@
-Данный проект пересобран под Ubuntu 
-Проект разбит на роли
-Sonar и СУБД установлены на разные машины, сопрягаются по локальному ip.
-Локальный ip вытаскивается в Ansible (с помощью terraform outputs с указанием пути к файлу .tfstate) в блоке localhost и подставляется в vars.yaml
-Версия nexus изменена на последннюю взятую с github
-Запуск плэйбука происходит автоматически из main.tf в нем указан путь к ansible.cfg что бы сохранить пути к дерикториям
+## Данный проект пересобран под Ubuntu 
+## Проект разбит на роли
+## Sonar и СУБД установлены на разные машины, сопрягаются по локальному ip.
+## Локальный ip вытаскивается в Ansible (с помощью terraform outputs с указанием пути к файлу .tfstate) в блоке localhost и подставляется в vars.yaml
+## Версия nexus изменена на последннюю взятую с github
+## Запуск плэйбука происходит автоматически из main.tf в нем указан путь к ansible.cfg что бы сохранить пути к дерикториям
 
+### Sonar
 
 ```
 sypchik@Mirror:~$ wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip
@@ -217,3 +218,5 @@ sypchik@Mirror:~$ sonar-scanner -v
 01:27:36.603 INFO  EXECUTION SUCCESS
 01:27:36.604 INFO  Total time: 2:35.423s
 ```
+
+
