@@ -90,8 +90,6 @@ resource "local_file" "ansible_inventory" {
   })
 }
 
-
-/*
 resource "null_resource" "ansible_apply" {
   provisioner "local-exec" {
     command = <<EOT
